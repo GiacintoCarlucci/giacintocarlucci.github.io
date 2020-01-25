@@ -1,0 +1,55 @@
+<html>
+    <head>
+
+        <link href="https://fonts.googleapis.com/css?family=Palanquin|Roboto&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="base.css">
+
+        <script>
+		    function getRepos() {
+			    var responseObj = JSON.parse(this.responseText);
+			    console.log(responseObj);
+
+			    var repos = document.getElementById("repos");
+			    for(i=0;i<responseObj.length;i++){
+                    var repo = document.createElement('p');
+				    repo.innerHTML = responseObj[i].name;
+                    var language = document.createElement('span');
+				    language.innerHTML = responseObj[i].language;
+                    var description = document.createElement('div');
+                    description.innerHTML = responseObj[i].description;
+                    repo.appendChild(language);
+                    repo.appendChild(description);
+                    var link = document.createElement('a');
+                    link.setAttribute('href',responseObj[i].html_url);
+                    link.appendChild(repo);
+				    repos.appendChild(link);
+			    }
+		    }
+		    var request = new XMLHttpRequest();
+		    request.onload = getRepos;
+		    request.open('get', 'https://api.github.com/users/giacintocarlucci/repos', true)
+		    request.send()
+	    </script>
+
+    </head>
+
+    <body>
+        <nav>
+            <ul>
+                <li><a href="index.html">Giacinto Carlucci</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+
+        <div>
+            <h1>These are my projects on github:</h1>
+        </div>
+
+        <div class='main-text'>
+
+		    <div id="repos">
+		    </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,160 @@
+html{
+
+}
+
+nav {
+  text-align:left;
+}
+
+nav ul {
+  display:inline-block;
+  list-style:none;
+}
+
+nav li {
+  display:inline;
+}
+
+nav a {
+  float:left;
+  text-decoration:none; 
+  padding:0 30px;
+  color:black;
+  font-family: 'Palanquin', sans-serif;
+  margin: 0 10px;
+  font-weight:bold;
+  transition:1s;
+
+}
+
+nav a:hover{
+  background-color:rgba(0,0,0,0.1);
+}
+
+nav a:focus{
+  background-color:rgba(0,0,0,0.1);
+}
+
+h1 {
+  text-align: center;
+  font-family: 'Palanquin', sans-serif;
+}
+
+p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+}
+
+.main-text{
+  font-size: 1em;
+  line-height: 1.5em;
+  margin: 2em auto;
+  max-width: 35em;
+}
+
+#repos a{
+  text-decoration:none;
+}
+
+#repos p{
+  border:1px solid rgba(0,0,0,0.1);
+  border-radius:3px;
+  min-height:50px;
+  padding:5px;
+  /* offset-x | offset-y | blur-radius | spread-radius | color */
+  box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.1);     
+}
+
+#repos span{
+  color:rgba(0,0,0,0.87);
+  float:right;
+}
+        
+#repos div{
+  color:rgba(0,0,0,0.38);
+  font-size:14px;
+}
+
+address {
+  text-align:center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);  
+  transform: translate(-50%, -50%);
+}
+
+address a{
+  font-size:32px;
+  text-decoration:none;
+  color:black;
+  font-style:normal;
+  font-weight:800;
+  font-family: 'Roboto', sans-serif;
+}
+
+.contact-icons{
+  text-align:center;
+  position: absolute;
+  margin-top:50px;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);  
+  transform: translate(-50%, -50%);
+}
+
+.contact-icons span{
+  margin: 0 20px;
+}
+
+.contact-icons span a{
+  text-decoration:none;
+}
+
+.github-icon:after{
+    font-family: FontAwesome;
+    font-style: normal;
+    content: '\f09b';
+    color: black;
+    font-size: 1.5em;
+}
+
+.linkedin-icon:after{
+    font-family: FontAwesome;
+    font-style: normal;
+    content: '\f0e1';
+    color: black;
+    font-size: 1.5em;
+}
+
+.twitter-icon:after{
+    font-family: FontAwesome;
+    font-style: normal;
+    content: '\f099';
+    color: black;
+    font-size: 1.5em;
+}
+
+@media only screen and (max-width: 650px) {
+
+    address a{
+      font-size:5vw;
+    }
+
+}
+
+@media only screen and (max-width: 400px) {
+
+    address a{
+      font-size:4.8vw;
+    }
+
+    .contact-icons span{
+      margin: 0 10px;
+    }
+
+    .contact-icons span>a>i{
+      font-size:.8em;
+    }
+
+}
