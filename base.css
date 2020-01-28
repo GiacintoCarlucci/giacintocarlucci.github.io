@@ -17,7 +17,7 @@ nav li {
 
 nav a {
   float:left;
-  text-decoration:none; 
+  text-decoration:none;
   padding:0 30px;
   color:black;
   font-family: 'Palanquin', sans-serif;
@@ -52,27 +52,40 @@ p {
   max-width: 35em;
 }
 
-#repos a{
+#block-list a{
   text-decoration:none;
 }
 
-#repos p{
+#block-list p{
   border:1px solid rgba(0,0,0,0.1);
   border-radius:3px;
   min-height:50px;
   padding:5px;
   /* offset-x | offset-y | blur-radius | spread-radius | color */
-  box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.1);     
+  box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.1);
 }
 
-#repos span{
+#block-list span{
   color:rgba(0,0,0,0.87);
   float:right;
 }
-        
-#repos div{
+
+#block-list div{
   color:rgba(0,0,0,0.38);
   font-size:14px;
+}
+
+#bullet-list ul li a{
+    //text-decoration:none;
+    color:black;
+    font-size:2rem;
+    font-family: 'Palanquin', sans-serif;
+    font-weight:bold;
+    line-height:40px;
+}
+
+#bullet-list ul li{
+    margin:3vh 0;
 }
 
 address {
@@ -80,7 +93,7 @@ address {
   position: absolute;
   top: 50%;
   left: 50%;
-  -webkit-transform: translate(-50%, -50%);  
+  -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 
@@ -99,7 +112,7 @@ address a{
   margin-top:50px;
   top: 50%;
   left: 50%;
-  -webkit-transform: translate(-50%, -50%);  
+  -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 
@@ -155,6 +168,27 @@ address a{
 
     .contact-icons span>a>i{
       font-size:.8em;
+    }
+
+    nav a{
+        padding:0;
+        margin: 4px;
+    }
+
+    nav ul{
+        padding:0;
+    }
+
+    #block-list a p{
+        font-size: 14px;
+    }
+
+    #block-list a div{
+        font-size: 12px;
+    }
+
+    #bullet-list ul li a{
+        font-size: 1.5rem;
     }
 
 }
