@@ -1,0 +1,64 @@
+#post-container{
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 30px;
+  border:1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  line-height: 1.2;
+}
+
+#post-header{
+  margin-bottom: 20px;
+}
+
+#post-author-image{
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#post-author-image img{
+  border-radius: 100%;
+  width:48px;
+  height:48px;
+}
+
+#post-author-info{
+  margin-left: 10px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#post-author{
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+}
+
+#post-date{
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: grey;
+}
+
+#post-image{
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+#post-title{
+  font-family: 'Palanquin', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 5px
+}
+
+#post-content{
+  font-family: 'Roboto',sans-serif;
+  font-size: 14px;
+}
+
+#post-link a:link{
+  font-weight: 300;
+  text-decoration: none;
+}
