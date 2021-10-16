@@ -80,7 +80,7 @@ The resolution (step size) selector pins (M0, M1, and M2) allow you to select on
 |High|Low |Low |1/2 step              |
 |Low |High|Low |1/4 step              |
 |High|High|Low |1/8 step              |
-|Low	 |Low |High|1/16 step             |
+|Low |Low |High|1/16 step             |
 |High|Low |High|1/32 step             |
 |Low |High|High|1/32 step             |
 |High|High|High|1/32 step             |
@@ -110,8 +110,8 @@ If you have already wired up the driver as I have shown before, you can leave th
 |VMOT   |8.2-45 V    |
 |GND    |Motor ground|
 |SLP    |5V          |
-|RST	    |5V          |
-|GND	    |Logic ground|
+|RST	|5V          |
+|GND	|Logic ground|
 
 ### Current limit formula
 
@@ -174,22 +174,26 @@ Here you are some basic schemes with final results:
 scheme:
 
 <p align="center">
-	<img src="./img/button-array-board-scheme.png" alt="button array scheme" title="button array scheme" width="700">
+	<img src="./img/array-button-scheme.png" alt="button array scheme" title="button array scheme" width="500">
 </p>
 
 final result:
 
 <p align="center">
-	<img src="./img/array-button-board.jpg" alt="button array board" title="button array board" width="700">
+	<img src="./img/array-button-board.jpg" alt="button array board" title="button array board" width="500">
 </p>
 
 **Stepper Driver**
 
 scheme:
-![scheme](./img/DRV8825-old-scheme.png)
+<p align="center">
+	<img src="./img/DRV8825-old-scheme.png" alt="DRV8825 custom board scheme" title="DRV8825 custom board scheme" width="500">
+</p>
 
 final result:
-![result](./img/DRV8825-old-board.jpg)
+<p align="center">
+	<img src="./img/DRV8825-old-board.jpg" alt="DRV8825 custom board" title="DRV8825 custom board" width="500">
+</p>
 
 # I'm an Idiot
 
@@ -206,10 +210,14 @@ I studied more on the argument and nothing was helping me, but while observing t
 The thing is that I did not set the driver to operate in microstepping, this made me think that there was an issue with the board I soldered. In fact, while checking the connections, I found out that some of the pins were shorting... maybe the solder melted the plastic and caused the issue, so I designed and soldered an improved version, since I didn't like the arrangement of the motor connector.
 
 new scheme:
-![scheme](./img/DRV8825-updated-scheme.png)
+<p align="center">
+	<img src="./img/DRV8825-updated-scheme.png" alt="DRV8825 new custom board scheme" title="DRV8825 new custom board scheme" width="500">
+</p>
 
 new board:
-![result](./img/DRV8825-updated-board.jpg)
+<p align="center">
+	<img src="./img/DRV8825-updated-board.jpg" alt="DRV8825 new custom board" title="DRV8825 new custom board" width="500">
+</p>
 
 # The Results
 
@@ -241,6 +249,3 @@ Teach an Artificial Intelligence using sensors while watering the plant by hand 
 [Using a DRV8825 with Arduino]
 [Arduino Forum]
 [How a peristaltic pump works]
-
----
-
