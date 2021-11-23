@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Giacinto Carlucci Personal Website">
+    <meta name="keywords" content="Personal Website, Giacinto Carlucci, Software Developer, Blog, Memex">
+    <meta name="author" content="Giacinto Carlucci">
+    <title>Giacinto Carlucci - Stop quitting Vim!</title>
+    <link rel="stylesheet" href="/static/style.css" type="text/css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/icons/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+  </head>
+  <body>
+    <h1 id="stop-quitting-vim">Stop quitting Vim!</h1>
+    <h2 id="read-this-instead-of-mistakely-open-vim-and-find-yourself-on-stackoverflow.">Read this instead of mistakely open vim and find yourself on StackOverflow.</h2>
+    <p>As you could try vim you would just notice how much different it is from standard text editors.</p>
+    <p><em>So why should i bother learning vim?</em></p>
+    <h3 id="vim-is-universal">Vim is Universal</h3>
+    <p>For those of you using a unix based os: vi or vim is <strong>installed by default</strong> on pretty much every unix-like operating systems (Linux, MacOSX, and BSD) so you already have it by standard. On many restricted linux distros, vim is the only text editor available. So if you are a programmer it makes a lot of sense to have at least a bit o familiarity with vim.</p>
+    <h3 id="vim-is-powerful">Vim is Powerful</h3>
+    <p>Why should you really dive into vim and go beyond the standard editing of files though? vim can be such a powerful tool if you live in the text editor, allowing you to fly between files and editing large chuncks of text with very few keystrokes.</p>
+    <p>Vim is highly configurable and it has an extensive plugin system, there are lots of good plugins out there which enhance its functionality.</p>
+    <h3 id="also-vim-is-strange">Also, Vim is strange</h3>
+    <p>The first thing you may notice in vim is that it is not like any other text editor, there are a lot of users that mistakely open vim and can’t figure out how to quit.</p>
+    <figure>
+    <img src="./img/how-to-exit-from-vim.jpeg" alt="2M readings!" /><figcaption aria-hidden="true">2M readings!</figcaption>
+    </figure>
+    <p>Another strange thing about vim is that it uses <code>hjkl</code> keys to move in the document. Why?</p>
+    <p>Because the <a href="https://en.wikipedia.org/wiki/Bill_Joy">creator of vi</a> was using these old school terminals, that didn’t have arrow keys.</p>
+    <figure>
+    <img src="./img/ADM-3A-keyboard.jpeg" alt="ADM-3A computer terminal’s full keyboard" /><figcaption aria-hidden="true">ADM-3A computer terminal’s full keyboard</figcaption>
+    </figure>
+    <p>It may seem like a super hard thing to learn but trust me, all the work will pay you after, with blazing fast document edits and powerful ways to do it, you will use vim forever.</p>
+    <blockquote>
+    <p>The more you get into vim, the more is difficult to use other editors</p>
+    </blockquote>
+    <h3 id="whats-the-best-way-to-learn-vim">What’s the best way to learn vim?</h3>
+    <p>There are many ways to start learning vim, a cool way to give it a try is to visit vim-adventures website:</p>
+    <p><a href="https://vim-adventures.com">Learn VIM while playing a game - VIM Adventures</a></p>
+    <p>You can also take a look to the <strong>references</strong> at the bottom of this document 😃</p>
+    <p>However the most common way to learn the basics is <code>vimtutor</code>, you can launch it in the terminal if you have vim installed.</p>
+    <h3 id="some-commands">Some commands</h3>
+    <h4 id="quit-vim"><strong>Quit vim:</strong></h4>
+    <p><code>:quit</code>, <code>:exit</code>, <code>:q</code>, <code>:X</code><br />
+    or <code>:q!</code>to exit without saving changes<br />
+    or <code>:wq</code> to write changes and quit vim</p>
+    <p>you can also exit vim typing two capital Z in the normal mode: <code>ZZ</code></p>
+    <h4 id="normal-mode">NORMAL MODE?</h4>
+    <p>vim has several modes: normal is to navigate, delete copy and paste text. This is the mode you should be in most of the time.</p>
+    <p><code>gg</code> gets you to the first line of the document, while <code>G</code> gets you to the very last line of it. If you type <code>2G</code> it will bring you to the second line of the document.</p>
+    <p><code>0</code> brings you to the first character of the current line</p>
+    <p><code>x</code> will delete the current character on your cursor</p>
+    <p><code>2x</code> will delete 2 caharacters starting from the current position of the cursor</p>
+    <p><code>u</code> will undo the changes</p>
+    <p><code>dw</code> will delete the current word</p>
+    <p><code>dd</code> will delete a line, <code>10dd</code> will delete 10 lines</p>
+    <p><code>d$</code> deletes starting from the current cursor to the end of the line, same with <code>D</code></p>
+    <p><code>y</code> is the yank command (copy command), if you type <code>yw</code> it will copy the current word</p>
+    <p><code>yy</code> yanks (copy) an entire line</p>
+    <p><code>p</code> works as paste for the last deleted lines and for yank command</p>
+    <p><code>r</code> is used for replacing a single char (useful for mispelled words), if you type <code>ra</code> this command will replace the char on wich the cursor is with the letter ‘a’</p>
+    <p><code>c</code> is the change command, it will put you in insert mode automatically, if you type <code>ce</code> it will delete characters till the end of the current word and put you in insert mode, if you type <code>c$</code> it will delete the whole line and put you in insert mode, you cold have the same behaviour by typing <code>C</code></p>
+    <p><code>w</code> will bring you forward one word at time, <code>3w</code> will bring you forward by 3 words</p>
+    <p><code>b</code> brings you to the first char of the previous word, <code>3b</code> brings you back by 3 words and puts the cursor on the first char of the word</p>
+    <p><code>f</code> is the forward command, it brings you forward to the char indicated, so if you type <code>ft</code> it will bring you to the first ‘t’ char it encounters starting from the local position of the cursor</p>
+    <p><code>F</code> is the same as <code>f</code> but it moves backwards</p>
+    <p><code>t</code> moves the cursor forward until the char indicated by you, if you type <code>tt</code> and you are on a word like ‘capital’ and the cursor is on ‘c’ letter: <strong><em>c</em></strong> apital, the cursor will be positionated on the word before ‘t’ indicated by you: cap <strong><em>i</em></strong> tal</p>
+    <p><code>T</code> is the same as <code>t</code> but it moves backwards</p>
+    <p><code>%</code> puts the cursor to the first parenthesis found starting from current cursor position</p>
+    <p><code>/</code> is used for searching, if you type <code>/Dog</code> and hit ENTER it will bring your cursor to the first char of the result found in the document, if you type <code>n</code> it will bring you to the next instance of the results found for the keyword ‘Dog’. <code>N</code> searches in reverse.</p>
+    <p><code>:%s/Dog/Cat</code> will substitute all the instances in the of ‘Dog’ with ‘Cat’</p>
+    <p><code>:3,9s/Dog/Cat</code> will substitute the instances of ‘Dog’ with ‘Cat’ on lines 3 and 9 (so you just need to indicate lines separated by a comma)</p>
+    <p><code>:%s/Dog/Cat/gc</code> will ask for confirmation before replacing every found instance</p>
+    <h4 id="insert-mode">INSERT MODE:</h4>
+    <p>just type <code>i</code> while in normal mode to enter in insert mode, so you can type what you want. To go back to normal mode just hit the <strong>ESC</strong> key</p>
+    <p><code>a</code> puts you in insert mode one position after the cursor</p>
+    <p><code>A</code> puts you in insert mode appending, putting you on the first char after the end of the line</p>
+    <p><code>s</code> deletes the char currently on the cursor and puts you in insert mode</p>
+    <p><code>S</code> deletes the current line and puts you in insert mode</p>
+    <p><code>o</code> creates a new succeding line and puts you in insert mode</p>
+    <p><code>O</code> creates a new preceding line and enters insert mode</p>
+    <h4 id="visual-mode">VISUAL MODE:</h4>
+    <p>Select blocks of text to quick copy, delete, move parts of text, you can enter in visual mode by pressing <code>v</code> while you are in normal mode, to exit just hit <strong>ESC</strong> key</p>
+    <h4 id="extra-commands">EXTRA COMMANDS:</h4>
+    <ul>
+    <li>in normal mode, if you want to know what commands starting with ‘w’ can you type, just type <code>:w</code> and then hit CTRL + D, this will give you all the possibile commands starting with ‘w’</li>
+    </ul>
+    <figure>
+    <img src="./img/command-hints.jpeg" alt="vim command hints" /><figcaption aria-hidden="true">vim command hints</figcaption>
+    </figure>
+    <ul>
+    <li>you can run shell / bash commands directly in vim without exiting the editor by typing <code>:!&lt;command&gt;</code> so for example <code>:!pwd</code> will print out the current directory path. to go back to the editor just press ENTER</li>
+    <li>you can create macros to automate frequent and boring tasks</li>
+    </ul>
+    <h3 id="cheatsheets">Cheatsheets?</h3>
+    <p>There are a lot of cheatsheets about vim, the most updated is <a href="https://vim.rtorr.com/">this</a>. On DuckDuckGo if you search for ‘vim cheatsheet’ it will give you a nice page full of commands:</p>
+    <figure>
+    <img src="./img/vim-cheatsheet.jpeg" alt="DuckDuckGo HUGE vim Cheatsheet" /><figcaption aria-hidden="true">DuckDuckGo HUGE vim Cheatsheet</figcaption>
+    </figure>
+    <p>If you want a printable reference card make sure to take a look at <a href="http://tnerual.eriogerg.free.fr/vimqrc.pdf">this</a> resource.</p>
+    <h3 id="conclusion">Conclusion</h3>
+    <p>As you might have understood, vim is a powerful tool that every developer might at least try to gain a bit of familiarity with.</p>
+    <p>Have a look at the references if you want to dive deeper with vim, and let me know if this article was helpful!</p>
+    <h4 id="references">REFERENCES:</h4>
+    <ul>
+    <li><a href="https://www.youtube.com/watch?v=ER5JYFKkYDg">The Vim Tutorial — Part One — Basic Commands</a></li>
+    <li><a href="https://www.youtube.com/watch?v=tExTz7GnpdQ">The Vim Tutorial — Part Two — More Commands</a></li>
+    <li><a href="http://teaching.idallen.com/cst8207/19w/notes/300_vi_text_editor.html">The VI (VIM) Text Editor</a></li>
+    <li><a href="https://www.moolenaar.net/habits.html">Seven habits of effective text editing</a></li>
+    <li><a href="https://www.tecmint.com/reasons-to-learn-vi-vim-editor-in-linux/">10 Reasons Why You Should Use Vi/Vim Text Editor in Linux</a></li>
+    <li><a href="https://danielmiessler.com/study/vim/">Learn vim For the Last Time: A Tutorial and Primer</a></li>
+    </ul>
+  </body>
+  <footer>
+    <h3>Explore this website:</h3>
+    <a href="/">home</a>
+    <a href="/docs/about/">about</a>
+    <a href="/docs/now/">now</a>
+    <a href="/docs/memex/">memex</a>
+    <a href="/docs/links/">links</a>
+    <a href="/docs/blog/">blog</a>
+    <a href="/docs/readings/">readings</a>
+    <a href="/docs/photography">photography</a>
+    <a href="/docs/skills-and-tools/">skills/tools</a>
+    <a href="https://webring.xxiivv.com/#xxiivv" target="_blank" rel="noopener noreferrer">
+      <img src="/static/icons/webring-gold.svg" alt="XXIIVV webring" class="webring"/>
+    </a>
+    <br/>
+    <div>
+        <p>
+            Download this web page as markdown (internal links will not work): <a href="./index.md">download</a>
+        </p>
+    </div>
+  </footer>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Giacinto Carlucci Personal Website">
+    <meta name="keywords" content="Personal Website, Giacinto Carlucci, Software Developer, Blog, Memex">
+    <meta name="author" content="Giacinto Carlucci">
+    <title>Giacinto Carlucci - Tiny static site generator</title>
+    <link rel="stylesheet" href="/static/style.css" type="text/css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/icons/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+  </head>
+  <body>
+    <h1 id="tiny-static-site-generator">Tiny static site generator</h1>
+    <h2 id="requirements">Requirements:</h2>
+    <ul>
+    <li>bash</li>
+    <li>pandoc</li>
+    <li>imagemagick</li>
+    <li>jpegoptim</li>
+    </ul>
+    <h3 id="install-requirements-on-ubuntu-based-os">install requirements on ubuntu-based OS</h3>
+    <p><code>sudo apt-get install pandoc imagemagick jpegoptim -y</code></p>
+    <h2 id="how-its-done">How it’s done</h2>
+    <p>It’s a simple bash script that uses <code>find</code> command to locate the files in your website and converts/optimize resources, building a ready to upload HTML website</p>
+    <h2 id="pandoc">Pandoc</h2>
+    <p>Using this command in a loop, will convert markdown files to html pages. The <code>--standalone --template</code> option is needed if you want to use a custom template for headers and footers for each html page.</p>
+    <p><code>pandoc --standalone --template template.html $MARKDOWN_PATH -o $HTML_PATH</code></p>
+    <h2 id="imagemagick">Imagemagick</h2>
+    <p>Using this command in a loop, will convert all png images to jpeg, with a fixed width of 500px</p>
+    <p><code>convert $PNG_PATH -resize 500 $JPEG_PATH</code></p>
+    <p>Using this command to get image width, if the image width is already 500px, don’t resize, otherwise this will create vertical bands on images over several resizings</p>
+    <p><code>identify -format "%w" $JPEG_PATH</code></p>
+    <p>Using wildcards, I can convert images avoiding certain folder paths (icons)</p>
+    <p><code>if [[ $PNG_PATH != *"/static/icons/"* ]];</code></p>
+    <h2 id="jpegoptim">jpegoptim</h2>
+    <p>Using this command in a loop, will try to resize jpeg images at 100k, if the resized image doesn’t differ from the original more than 5% (threshold), just keep the original. <code>-q</code> stands for “quiet”.</p>
+    <p><code>jpegoptim --size=100k --threshold=5 -q $JPEG_PATH</code></p>
+    <h2 id="bonus">Bonus</h2>
+    <p>Can add in your footer a link to download the page in markdown format. (internal links will not work, but a workaround can be added, need to think about it)</p>
+  </body>
+  <footer>
+    <h3>Explore this website:</h3>
+    <a href="/">home</a>
+    <a href="/docs/about/">about</a>
+    <a href="/docs/now/">now</a>
+    <a href="/docs/memex/">memex</a>
+    <a href="/docs/links/">links</a>
+    <a href="/docs/blog/">blog</a>
+    <a href="/docs/readings/">readings</a>
+    <a href="/docs/photography">photography</a>
+    <a href="/docs/skills-and-tools/">skills/tools</a>
+    <a href="https://webring.xxiivv.com/#xxiivv" target="_blank" rel="noopener noreferrer">
+      <img src="/static/icons/webring-gold.svg" alt="XXIIVV webring" class="webring"/>
+    </a>
+    <br/>
+    <div>
+        <p>
+            Download this web page as markdown (internal links will not work): <a href="./index.md">download</a>
+        </p>
+    </div>
+  </footer>
+</html>

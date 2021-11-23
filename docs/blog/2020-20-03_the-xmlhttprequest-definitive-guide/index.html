@@ -1,0 +1,346 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Giacinto Carlucci Personal Website">
+    <meta name="keywords" content="Personal Website, Giacinto Carlucci, Software Developer, Blog, Memex">
+    <meta name="author" content="Giacinto Carlucci">
+    <title>Giacinto Carlucci - The XMLHttpRequest Definitive guide</title>
+    <link rel="stylesheet" href="/static/style.css" type="text/css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/icons/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+  </head>
+  <body>
+    <h1 id="the-xmlhttprequest-definitive-guide">The XMLHttpRequest Definitive guide</h1>
+    <h2 id="stop-searching-and-read-this">Stop searching and read this</h2>
+    <p>First of all, let’s understand what we are going to talk about.</p>
+    <h3 id="what-it-is">What it is</h3>
+    <p>Invented by Microsoft in the early ’90s and abbreviated as <strong>XHR</strong> , <strong><em>X</em></strong> <em>ML</em> <strong><em>H</em></strong> <em>ttp</em> <strong><em>R</em></strong> <em>equest</em> is a set of APIs that can be used by Web browser scripting languages, such as <strong>JavaScript</strong> to transfer data <strong>to</strong> and <strong>from</strong> a <strong>Web server</strong> using HTTP.</p>
+    <p>XHR can be used with protocols other than HTTP and data can be in the form of not only <strong>XML</strong> , but also <strong>JSON</strong> , <strong>HTML</strong> or <strong>plain text</strong>.</p>
+    <h3 id="what-you-can-do-with-xhr">What you can do with XHR</h3>
+    <p>All modern browsers have a built-in XMLHttpRequest object to request data from a server. With an XHR object you can:</p>
+    <ul>
+    <li><strong>Update</strong> a web page without reloading the page</li>
+    <li><strong>Request</strong> data from a server — after the page has loaded</li>
+    <li><strong>Receive</strong> data from a server — after the page has loaded</li>
+    <li><strong>Send</strong> data to a server — in the background</li>
+    </ul>
+    <h3 id="what-we-are-going-to-do">What we are going to do</h3>
+    <p>We are going to use a fake online REST API for testing and prototyping like <a href="https://reqres.in/">reqres</a> (another good one is <a href="https://jsonplaceholder.typicode.com/">JSONPlaceholder</a>), those are great for tutorials, testing and code examples. In this post you will learn:</p>
+    <ul>
+    <li>how to receive data with GET requests and how to send with POST</li>
+    <li>What is a callback and what is a promise (briefly)</li>
+    <li>Improve our code to make it more versatile</li>
+    <li>Handle request errors</li>
+    <li>Visualize the received data</li>
+    </ul>
+    <h3 id="receiving-data">Receiving data</h3>
+    <p>We need to <strong>create a new xhr object</strong> by instantiating XMLHttpRequest:</p>
+    <p><code>const xhr = new XMLHttpRequest();</code></p>
+    <p>this is a built-in constructor function in your browser, so you don’t need to add any special library or package.</p>
+    <p>int the next step we need to <strong>prepare the HttpRequest to be sent</strong> , using a function that takes two arguments:<br />
+    1) HTTP Method used<br />
+    2) URL to which you want to send that request</p>
+    <p><code>xhr.open('GET', 'https:reqres.in/api/users')</code></p>
+    <p>Now we can <strong>send our preconfigured request</strong> :</p>
+    <p><code>xhr.send();</code></p>
+    <p>This theoretically <em>should</em> be all we need to do, infact the request is sent to the URL using GET method and we are able to receive the response, but we are not there yet. We need to use the response.</p>
+    <p><strong>Little preamble here<br />
+    </strong> There are two main ways to actually listen to the onload event in our xhr request, wich are:</p>
+    <p><code>/*1*/ xhr.addEventListener("load", reqListener);</code></p>
+    <p><code>/*2*/ xhr.onload = () =&gt; { };</code></p>
+    <p>We are going to use the second one as it has a broader browser support.</p>
+    <p>So the onload function will trigger when we receive a response, in order to get the data, we could log the response in this way:</p>
+    <p><code>xhr.onload = () =&gt; { console.log(xhr.response); };</code></p>
+    <p>in this case will see in the console log a bunch of data printed like a string, but it’s actually a JSON response. To convert this response in a Javascript object, in order to manipulate it, we can parse it:</p>
+    <pre><code>xhr.onload = () =&gt; {  
+        const data = JSON.parse(xhr.response);  
+        console.log(data);  
+    };</code></pre>
+    <p>Another way to parse the JSON response is to set the responseType attribute to ‘json’:</p>
+    <pre><code>xhr.responseType = &#39;json&#39;;
+
+
+    xhr.onload = () =&gt; {  
+        const data = xhr.response;  
+        console.log(data);  
+    };</code></pre>
+    <p>Our code should look like this:</p>
+    <pre><code>const xhr = new XMLHttpRequest();  
+    xhr.open(&#39;GET&#39;,&#39;https://reqres.in/api/users&#39;);  
+    xhr.responseType = &#39;json&#39;;  
+    xhr.onload = () =&gt; {  
+        const data = xhr.response;  
+        console.log(data);  
+    };  
+    xhr.send();</code></pre>
+    <h3 id="sending-data">Sending data</h3>
+    <p>Let’s say that we want to crate a new user, we would need to send data in order to specify the name and the job of the new user.</p>
+    <p>The only thing that changes is the xhr.open() call, as we need to modify our request method to POST, set the URL for the request and <strong>add the data</strong> for the user we want to create:</p>
+    <pre><code>xhr.open(&#39;POST&#39;,&#39;https://reqres.in/api/users&#39;,{  
+        &quot;name&quot;:&quot;morpheus&quot;,  
+        &quot;job&quot;:&quot;leader&quot;  
+    });</code></pre>
+    <p>reqres.in will respond to our request with a 2xx status and sending us extra information about our successful user creation, with a response object like this:</p>
+    <pre><code>createdAt: &quot;2020-02-03T17:10:31.110Z&quot;  
+    ​id: &quot;644&quot;</code></pre>
+    <h3 id="what-is-a-callback">What is a callback</h3>
+    <blockquote>
+    <p><strong>Simply put:</strong> <em>A callback is a function that is to be executed</em> <strong> <em>after</em></strong> <em>another function has finished executing — hence the name ‘call back’</em>.</p>
+    </blockquote>
+    <p>— <a href="https://medium.com/u/e9031892baf5">Brandon Morelli</a> in this beautiful <a href="https://codeburst.io/javascript-what-the-heck-is-a-callback-%20aba4da2deced">article</a> about callbacks.</p>
+    <h3 id="what-is-a-promise">What is a promise</h3>
+    <p><em>(Promises only work natively in modern browsers)<br />
+    </em> Promise-based XHR may help you avoid deeply nested callbacks and allowing <strong>method chain using .then()</strong> Here’s what a <strong>traditional callback model</strong> might look like:</p>
+    <pre><code>first(a,function(b){  
+        second(b,function(c){  
+            third(c,function(d){  
+                fourth(d);  
+            });  
+        });  
+    });</code></pre>
+    <p>And what that might look like using a <strong>Promise-based approach:</strong></p>
+    <pre><code>first(a)  
+        .then(function(b){  
+            return second(b);  
+        })  
+        .then(function(c){  
+            return third(c);  
+        })  
+        .then(function(d){  
+            return fourth(d);  
+        })  
+        .catch(function (error){  
+            // error at any point of the chain  
+        });</code></pre>
+    <p>pretty clearer, uh?</p>
+    <h3 id="lets-improve-some-code">Let’s improve some code</h3>
+    <p>Okay, now that we understood the basics it’s time to make the things more professional by creating a function to receive/send data through HttpRequests:</p>
+    <pre><code>const sendHttpRequest = ( method , url ) =&gt; {  
+        const xhr = new XMLHttpRequest();  
+        xhr.open( method , url );  
+        xhr.responseType = &#39;json&#39;;  
+        xhr.onload = () =&gt; {  
+            const data = xhr.response;  
+            console.log(data);  
+        };  
+        xhr.send();  
+    };</code></pre>
+    <p>Not there yet. Let’s add <strong>promises:</strong></p>
+    <pre><code>const sendHttpRequest = (method, url) =&gt; {  
+        //Adding promise  
+        const promise = new Promise((resolve, reject) = &gt; {
+            const xhr = new XMLHttpRequest();  
+            xhr.open(method,url);  
+            xhr.responseType = &#39;json&#39;;  
+            xhr.onload = () = &gt; {  
+                resolve(xhr.response);  
+            };  
+            xhr.send();  
+        });  
+        //returning the promise  
+        return promise  
+    };
+
+
+     //Using .then() to retrieve data
+     const getData = () =&gt; {  
+        sendHttpRequest(&#39;GET&#39;,&#39;https://reqres.in/api/users&#39;)  
+        .then(responseData = &gt; {  
+            console.log(responseData);  
+        });  
+    };</code></pre>
+    <p>We can send POST requests as well, but some changes to sendHttpRequest must be done:</p>
+    <pre><code> //adding data parameter
+     const sendHttpRequest = (method, url, data ) =&gt; {  
+        const promise = new Promise((resolve, reject) =&gt; {  
+            const xhr = new XMLHttpRequest();  
+            xhr.open(method,url);  
+            xhr.responseType = &#39;json&#39;;  
+            //signals that we are appending json data in POST  
+            if (data){  
+                xhr.setRequestHeader(&#39;Content-Type&#39;,&#39;application/json&#39;);  
+            }          
+            xhr.onload = () =&gt; {  
+                resolve(xhr.response);  
+            };  
+            //appending json data  
+            xhr.send(JSON.stringify(data));
+        });  
+        return promise  
+    };
+
+
+     //Sending POST request
+     const sendData = () =&gt; {  
+        sendHttpRequest(&#39;POST&#39;,&#39;https://reqres.in/api/users&#39;,{  
+            name: &quot;morpheus&quot;,  
+            job: &quot;leader&quot;  
+        }).then(responseData =&gt; {  
+            console.log(responseData);  
+        })  
+    };</code></pre>
+    <p>Nice, we can now call <strong>getData()</strong> and <strong>sendData()</strong> to test them out:</p>
+    <figure>
+    <img src="./img/console.jpeg" alt="GET and POST responses" /><figcaption aria-hidden="true">GET and POST responses</figcaption>
+    </figure>
+    <h3 id="error-handling">Error handling</h3>
+    <p>So far, so good. But what about errors?<br />
+    First things first, before handling xhr errors we need to understand a little difference: <strong>there are two main types of errors:</strong></p>
+    <ul>
+    <li><p><strong>Response errors</strong> The response fails due to network connection or invalid url.</p></li>
+    <li><p><strong>Status errors</strong> We are actually able to retrieve a response from the sever, but with an error status (like 400); that’s because the server didn’t recognize our request (e.g. we missed a parameter in a POST request).</p></li>
+    </ul>
+    <p>Let’s modify our code to handle this errors:</p>
+    <pre><code>const sendHttpRequest = (method, url, data) =&gt; {  
+        const promise = new Promise((resolve, reject) =&gt; {  
+            const xhr = new XMLHttpRequest();  
+            xhr.open(method,url);  
+            xhr.responseType = &#39;json&#39;;  
+       if (data){  
+                xhr.setRequestHeader(&#39;Content-Type&#39;,&#39;application/json&#39;);  
+            }          
+            xhr.onload = () =&gt; {  
+                //rejecting promise on status error  
+                if(xhr.status &gt;= 400) {  
+                    reject(xhr.response);  
+                } else {  
+                    resolve(xhr.response);  
+                }  
+            };
+            //rejecting promise on response errors  
+            xhr.onerror = () =&gt; {  
+                reject(&#39;Something went wrong!&#39;);  
+            };         
+            xhr.send(JSON.stringify(data));  
+        });  
+        return promise  
+    };
+
+
+    const sendData = () =&gt; {  
+        sendHttpRequest(&#39;POST&#39;,&#39;https://reqres.in/api/users&#39;,{  
+            name: &quot;morpheus&quot;,  
+            job: &quot;leader&quot;  
+        }).then(responseData =&gt; {  
+            console.log(responseData);  
+        //catching and printing errors  
+        }).catch(err =&gt; {  
+             console.log(err);  
+        });  
+    };</code></pre>
+    <p>Now if we turn down the internet connection and try to call <strong>sendData()</strong> we will get in log <strong>something went wrong!</strong>, same if we try to reach an invalid url.</p>
+    <p>Depending on the POST request, if we try to omit a field in the data to send:</p>
+    <pre><code>const sendData = () =&gt; {  
+        sendHttpRequest(&#39;POST&#39;, &#39;https://reqres.in/api/register&#39;, {  
+            email: &#39;eve.holt@reqres.in&#39;  
+            // password: &#39;pistol&#39;  
+        }).then(responseData =&gt; {  
+            console.log(responseData);  
+        }).catch(err =&gt; {  
+            console.log(err);  
+        });  
+    };</code></pre>
+    <p>we will get a status error <strong>error: “Missing email or username”</strong></p>
+    <h3 id="visualize-the-received-data">Visualize the received data</h3>
+    <p>You can simply visualize the data using a function that appends DOM elements</p>
+    <pre><code>// Visualize in HTML the data from GET requests 
+        const visualize = (data) =&gt; {  
+          // Referring to an existing element in HTML code  
+          // (in this case &lt;div id=&quot;data-from-xhr&quot;&gt;&lt;/div&gt;)  
+          let div = document.getElementById(&#39;data-from-xhr&#39;)  
+          // Clear div element  
+          div.innerHTML = &#39;&#39;
+
+        // For every data element:
+        data.map(userData =&gt; {  
+            // Create DOM elements
+            let user = document.createElement(&#39;div&#39;)  
+            let avatar = document.createElement(&#39;img&#39;)  
+            let email = document.createElement(&#39;p&#39;)  
+            let fullName = document.createElement(&#39;p&#39;)
+
+
+            // Fill DOM elements with passed data
+            avatar.src=userData.avatar  
+            email.innerText = userData.email  
+            fullName.innerText = userData.first_name + userData.last_name
+
+
+            // Create a user node each one with avatar, email and fullName
+            user.appendChild(avatar)  
+            user.appendChild(email)  
+            user.appendChild(fullName)
+
+
+            // Append the user node to div in HTML
+            div.appendChild(user)
+        })  
+    };</code></pre>
+    <p>with some css it should look like this:</p>
+    <figure>
+    <img src="./img/request-data.jpeg" alt="The received data can now be displayed in HTML" /><figcaption aria-hidden="true">The received data can now be displayed in HTML</figcaption>
+    </figure>
+    <h3 id="some-candies-for-you">Some candies for you</h3>
+    <p><strong>Request states:</strong> We can track the request state by using <strong>onreadystatechange</strong> event:</p>
+    <pre><code>xhr.onreadystatechange = function () {  
+        if(xhr.readyState == 1) {  
+            console.log(&#39;Request started.&#39;);  
+        }  
+          
+        if(xhr.readyState == 2) {  
+            console.log(&#39;Headers received.&#39;);  
+        }  
+          
+        if (xhr.readyState == 3) {  
+            console.log(&#39;Data loading..!&#39;);  
+        }  
+        if (xhr.readyState == 4) {  
+            console.log(&#39;Request ended.&#39;);  
+        }  
+    };</code></pre>
+    <p><strong>Aborting Request</strong> abort an XHR request anytime by calling the <strong>abort()</strong> method:</p>
+    <pre><code>xhr.abort(); // cancel request</code></pre>
+    <p><strong>Progress event</strong> Triggered periodically during the response download, it can be used to report progress for heavy network requests.</p>
+    <pre><code>xhr.onprogress = (event) =&gt; {  
+        // event.loaded returns how many bytes are downloaded  
+        // event.total returns the total number of bytes  
+        // event.total only if server sends `Content-Length` header  
+        console.log(`Downloaded ${event.loaded} of ${event.total}`);  
+    }</code></pre>
+    <h3 id="want-a-real-code-example">Want a real code example?</h3>
+    <p>Here you are my <a href="https://github.com/GiacintoCarlucci/XMLHttpRequest">github repo</a> about XHR.</p>
+    <h3 id="references">References</h3>
+    <p><strong>youtube.com:</strong> <a href="https://www.youtube.com/watch?v=4K33w-0-p2c&amp;list=LLN_EXeQP6wZqSjsMSadvWaQ&amp;index=2&amp;t=0s">Sending Javascript Http Requests with XMLHttpRequest</a><br />
+    <strong>codeburst.io:</strong><a href="https://codeburst.io/javascript-what-the-heck-is-a-callback-%20aba4da2deced">JavaScript: What the heck is a Callback?</a><br />
+    gomakethings.com :<a href="https://gomakethings.com/promise-%20based-xhr/">Promise-Based XHR</a><br />
+    <strong>attacomsian.com:</strong> <a href="https://attacomsian.com/blog/http-requests-xhr">Making HTTP Requests using XMLHttpRequest (XHR)</a><br />
+    <strong>w3schools.com:</strong> <a href="https://www.w3schools.com/xml/xml_http.asp">XML HttpRequest</a><br />
+    <strong>developer.mozilla.org:</strong> <a href="https://developer.mozilla.org/it/docs/Web/API/XMLHttpRequest">XMLHttpRequest</a><br />
+    <strong>wikipedia.org:</strong> <a href="https://en.wikipedia.org/wiki/XMLHttpRequest">XMLHttpRequest</a></p>
+  </body>
+  <footer>
+    <h3>Explore this website:</h3>
+    <a href="/">home</a>
+    <a href="/docs/about/">about</a>
+    <a href="/docs/now/">now</a>
+    <a href="/docs/memex/">memex</a>
+    <a href="/docs/links/">links</a>
+    <a href="/docs/blog/">blog</a>
+    <a href="/docs/readings/">readings</a>
+    <a href="/docs/photography">photography</a>
+    <a href="/docs/skills-and-tools/">skills/tools</a>
+    <a href="https://webring.xxiivv.com/#xxiivv" target="_blank" rel="noopener noreferrer">
+      <img src="/static/icons/webring-gold.svg" alt="XXIIVV webring" class="webring"/>
+    </a>
+    <br/>
+    <div>
+        <p>
+            Download this web page as markdown (internal links will not work): <a href="./index.md">download</a>
+        </p>
+    </div>
+  </footer>
+</html>

@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Giacinto Carlucci Personal Website">
+    <meta name="keywords" content="Personal Website, Giacinto Carlucci, Software Developer, Blog, Memex">
+    <meta name="author" content="Giacinto Carlucci">
+    <title>Giacinto Carlucci - The Cheapest Rubber Ducky</title>
+    <link rel="stylesheet" href="/static/style.css" type="text/css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/icons/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+  </head>
+  <body>
+    <h1 id="the-cheapest-rubber-ducky">The cheapest rubber ducky</h1>
+    <h2 id="and-how-i-changed-its-keyboard-layout">And how I changed its keyboard layout</h2>
+    <p>Some time ago I wanted to buy a <a href="https://shop.hak5.org/products/usb-rubber-ducky-deluxe">Rubber Ducky</a>, but the price ($49.99 while I’m writing this article) was too high for what I wanted to spend. Surfing the internet I found an alternative to the Rubber Ducky: the <strong>Digispark from Digistump.</strong></p>
+    <figure>
+    <img src="./img/digispark.jpeg" alt="digispark connections" /><figcaption aria-hidden="true">digispark connections</figcaption>
+    </figure>
+    <p>It’s a tiny development board based on the <strong>tiny85</strong> chip (same chip family used on Arduino).</p>
+    <p>It’s less powerful but (much) cheaper, you can consider this digispark board as micro Arduino board with very basic features.</p>
+    <p>Those are the main differences between the two peripherals:</p>
+    <table>
+    <thead>
+    <tr class="header">
+    <th>RUBBER DUCKY</th>
+    <th>DIGISPARK</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="odd">
+    <td>32-bit set</td>
+    <td>8-bit set</td>
+    </tr>
+    <tr class="even">
+    <td>60 Mhz</td>
+    <td>16 Mhz</td>
+    </tr>
+    <tr class="odd">
+    <td>SD card: yes</td>
+    <td>SD card: no</td>
+    </tr>
+    <tr class="even">
+    <td>512 KB Flash</td>
+    <td>8 KB Flash</td>
+    </tr>
+    </tbody>
+    </table>
+    <h3 id="pretending-to-be-a-keyboard">Pretending to be a keyboard</h3>
+    <p>Both Rubber Ducky and Digispark can work the same way: they are recognized by the computer as an <strong>HID</strong> (Human Interface Device) and act just like a normal keyboard would.</p>
+    <p>So the idea is to act like a keyboard, but typing faster than a human can do.</p>
+    <p>Using one or the other doesn’t make much difference, it will write much faster than you, so much that it is sometimes invisible.</p>
+    <figure>
+    <img src="./img/fast-typing.gif" alt="fast typing" /><figcaption aria-hidden="true">fast typing</figcaption>
+    </figure>
+    <h3 id="my-problem-with-digispark">My problem with Digispark</h3>
+    <p>As there are a lot of tutorials on the internet about <a href="http://letmegooglethat.com/?q=how+to+set+up+digispark">how to set up the Digispark</a> and make this tiny board work with Arduino IDE, I’ll jump to my problem: <strong>the Digistump library only allows US keyboard layout.</strong></p>
+    <p>That’s not a big problem if you only use standard numbers and letters, but <em>it’s impossible to use symbols.</em> I needed an Italian keyboard layout to let the board write on Italian computers 🇮🇹</p>
+    <h3 id="the-solution">The solution</h3>
+    <p>After a couple of hours trying to match the keystrokes to the different keyboard layouts, I decided to do some researches, finding something interesting on <a href="http://www.usb.org">www.usb.org</a>: a pdf containing all the <a href="https://www.usb.org/sites/default/files/documents/hut1_12v2.pdf"><strong>HID Usage Tables</strong></a> (you will be astonished by how many things you could do with a Digispark and this document)</p>
+    <p>If you search in the <a href="https://github.com/digistump/DigistumpArduino">Digispark library</a> you will find a file named <a href="https://github.com/digistump/DigistumpArduino/blob/master/digistump-%20avr/libraries/DigisparkKeyboard/DigiKeyboard.h"><strong>DigiKeyboard.h</strong></a> and analyzing it, you will notice something similar to the pdf mentioned above: <strong>keyboard scan codes.</strong></p>
+    <p>On <strong>page 53</strong> of this document, you can find the table containing the Hex code for each key on your keyboard (and some more cool functions that most keyboards do not have).</p>
+    <p>That said, it was easy to bring a solution to my problem, swapping keys and scan codes, matching my keyboard layout. I then forked the Digistump repo and made an <a href="https://github.com/GiacintoCarlucci/DigistumpArduino">Italian version of it</a>, ready to use for whoever needs that keyboard layout.</p>
+    <h3 id="a-little-example">A little example</h3>
+    <p>If you want a little demonstration of what a Digispark can do (and trust me when I say <em>little</em> ), here you are a script that you can write on Arduino IDE to create a text file on Windows computers:</p>
+    <pre><code>//create a text file on desktop with a message
+
+    #include &quot;DigiKeyboard_It.h&quot;  
+    #define D 200  
+    void setup() {
+    }
+    void loop() {
+      DigiKeyboardIt.sendKeyStroke(0);
+      DigiKeyboard.delay(D);
+      DigiKeyboardIt.sendKeyStroke(KEY_R, MOD_GUI_LEFT);
+      DigiKeyboard.delay(D);
+      DigiKeyboardIt.print(&quot;cmd -k cd %User%&quot;);
+      DigiKeyboardIt.sendKeyStroke(KEY_ENTER);
+      DigiKeyboard.delay(D);
+      DigiKeyboardIt.print(&quot;cd Desktop&quot;);
+      DigiKeyboardIt.sendKeyStroke(KEY_ENTER);
+      DigiKeyboard.delay(D);
+      DigiKeyboardIt.print(&quot;echo Ciao! &gt; Aprimi.txt&quot;);
+      DigiKeyboardIt.sendKeyStroke(KEY_ENTER);
+      DigiKeyboard.delay(D);
+      DigiKeyboardIt.print(&quot;exit&quot;);
+      DigiKeyboardIt.sendKeyStroke(KEY_ENTER);
+      DigiKeyboard.delay(D);
+      for (;;) { } 
+    }</code></pre>
+    <h3 id="conclusion">Conclusion</h3>
+    <p>Well, now you know that you can practice with a Digispark before buying a faster device such as Rubber Ducky!</p>
+  </body>
+  <footer>
+    <h3>Explore this website:</h3>
+    <a href="/">home</a>
+    <a href="/docs/about/">about</a>
+    <a href="/docs/now/">now</a>
+    <a href="/docs/memex/">memex</a>
+    <a href="/docs/links/">links</a>
+    <a href="/docs/blog/">blog</a>
+    <a href="/docs/readings/">readings</a>
+    <a href="/docs/photography">photography</a>
+    <a href="/docs/skills-and-tools/">skills/tools</a>
+    <a href="https://webring.xxiivv.com/#xxiivv" target="_blank" rel="noopener noreferrer">
+      <img src="/static/icons/webring-gold.svg" alt="XXIIVV webring" class="webring"/>
+    </a>
+    <br/>
+    <div>
+        <p>
+            Download this web page as markdown (internal links will not work): <a href="./index.md">download</a>
+        </p>
+    </div>
+  </footer>
+</html>

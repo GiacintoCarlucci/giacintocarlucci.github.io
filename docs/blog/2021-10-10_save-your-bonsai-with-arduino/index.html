@@ -1,0 +1,286 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Giacinto Carlucci Personal Website">
+    <meta name="keywords" content="Personal Website, Giacinto Carlucci, Software Developer, Blog, Memex">
+    <meta name="author" content="Giacinto Carlucci">
+    <title>Giacinto Carlucci - Save your bonsai with arduino</title>
+    <link rel="stylesheet" href="/static/style.css" type="text/css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/icons/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+  </head>
+  <body>
+    <h1 id="save-your-bonsai-with-arduino">Save your Bonsai with Arduino</h1>
+    <h3 id="based-on-a-real-adventure-that-got-me-angry-disappointed-excited-and-happy-all-together">Based on a real adventure that got me angry, disappointed, excited, and happy (all together)</h3>
+    <h2 id="my-bonsai-died.">My Bonsai died.</h2>
+    <p>So this is the real thing: I had no time. Sometimes you forget to water your bonsai and you end up with no more than a stick in the dirt. Not much of a deal.</p>
+    <h2 id="but-wait-im-a-programmer">But wait… I’m a Programmer!</h2>
+    <p>I realized that as a programmer, I’m created for building overcomplicated things to achieve simple results just for the sake of it. So what better opportunity to build an irrigation system for keeping my plants happy?</p>
+    <h2 id="the-solution-drip-irrigation">The solution: Drip Irrigation</h2>
+    <p>According to the Montreal Botanical Garden, drip irrigation is one of the best watering methods for optimum use of water; since drip irrigation releases water only to specific places, it uses much less water than sprinklers.</p>
+    <p>“Water is released slowly, without settling the soil. Water losses through evaporation are limited and plants foliage does not get wet, which reduces the risk of fungal diseases.”</p>
+    <p>– Montreal Botanical Garden</p>
+    <h2 id="the-hardware">The Hardware</h2>
+    <p>It should be enough an Arduino Uno but other solutions can be applied here:</p>
+    <ul>
+    <li><p>Arduino Mega if you want to add some more sensors or motors</p></li>
+    <li><p>Raspberry Pi if you want it to communicate with some sort of service over the internet.</p></li>
+    </ul>
+    <p>Some of the hardware parts used in this project are:</p>
+    <ul>
+    <li><p>Arduino Uno</p></li>
+    <li><p>Breadboard + Jumper Wires</p></li>
+    <li><p>Nema 17 Stepper Motor (as a peristaltic pump)</p></li>
+    <li><p>DRV8825 Stepper driver</p></li>
+    <li><p>16x2 LCD</p></li>
+    <li><p>5 Push buttons</p></li>
+    <li><p>Capacitor 100uF</p></li>
+    </ul>
+    <p>The connection scheme is:</p>
+    <figure>
+    <img src="./img/final-scheme.jpeg" alt="final scheme" /><figcaption aria-hidden="true">final scheme</figcaption>
+    </figure>
+    <h3 id="stepper-motor-as-a-peristaltic-pump"><strong>Stepper Motor as a Peristaltic Pump</strong></h3>
+    <p>The need to use such a power inefficient motor like a Nema 17 is the ability to keep and mantain precision in movements.</p>
+    <p>A peristaltic pump works in a way that is ensured that every time you use the pump, the water flow will remain the same.</p>
+    <figure>
+    <img src="./img/peristaltic-pump.gif" alt="source: wikipedia" /><figcaption aria-hidden="true">source: wikipedia</figcaption>
+    </figure>
+    <p>There are a lot of motors that could be used in a peristaltic pump (there are other alternatives using DC motors) but a stepper motor is one of the few that will ensure a constant water flow over time, plus it is easy to modify if you calculate the water flow per step.</p>
+    <h3 id="push-buttons"><strong>Push buttons</strong></h3>
+    <p>The five push buttons are for controlling the pump, the controls are:</p>
+    <ul>
+    <li><p>Fast Backward</p></li>
+    <li><p>Backward</p></li>
+    <li><p>Stop</p></li>
+    <li><p>Forward</p></li>
+    <li><p>Fast Forward</p></li>
+    </ul>
+    <p>I first tried with a resistive multiplexer in order to use a single analog input to read 5 push buttons at once, but I ended up using a classic approach with digital inputs just because I did not had around the right resistors to give me a good reading gap value to distinguish which button was pressed exactly.</p>
+    <p>Here is a <a href="https://electronics.stackexchange.com/questions/101409/how-to-debouce-six-buttons-on-one-analog-pin-with-arduino">link</a> if you want to know how a resistive multiplexer works ;)</p>
+    <h3 id="drv8825"><strong>DRV8825</strong></h3>
+    <p>The driver has a maximum output capacity of 45 V and ± 2 A which is great for driving small to medium-sized stepper motors like a NEMA 17 bipolar stepper motor.</p>
+    <p>Stepper motors typically have a step size of 1.8° or 200 steps per revolution, this refers to full steps. A microstepping driver such as the DRV8825 allows higher resolutions by allowing intermediate step locations. This is achieved by energizing the coils with intermediate current levels.</p>
+    <p>The resolution (step size) selector pins (M0, M1, and M2) allow you to select one of the six step resolutions according to the table below.</p>
+    <table>
+    <thead>
+    <tr class="header">
+    <th>M0</th>
+    <th>M1</th>
+    <th>M2</th>
+    <th>Microstep res.</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="odd">
+    <td>Low</td>
+    <td>Low</td>
+    <td>Low</td>
+    <td>Full step</td>
+    </tr>
+    <tr class="even">
+    <td>High</td>
+    <td>Low</td>
+    <td>Low</td>
+    <td>1/2 step</td>
+    </tr>
+    <tr class="odd">
+    <td>Low</td>
+    <td>High</td>
+    <td>Low</td>
+    <td>1/4 step</td>
+    </tr>
+    <tr class="even">
+    <td>High</td>
+    <td>High</td>
+    <td>Low</td>
+    <td>1/8 step</td>
+    </tr>
+    <tr class="odd">
+    <td>Low</td>
+    <td>Low</td>
+    <td>High</td>
+    <td>1/16 step</td>
+    </tr>
+    <tr class="even">
+    <td>High</td>
+    <td>Low</td>
+    <td>High</td>
+    <td>1/32 step</td>
+    </tr>
+    <tr class="odd">
+    <td>Low</td>
+    <td>High</td>
+    <td>High</td>
+    <td>1/32 step</td>
+    </tr>
+    <tr class="even">
+    <td>High</td>
+    <td>High</td>
+    <td>High</td>
+    <td>1/32 step</td>
+    </tr>
+    </tbody>
+    </table>
+    <p>All three inputs have internal 100 kΩ pull-down resistors, so leaving the three microstep selection pins disconnected results in full-step mode.</p>
+    <p>I have left M0, M1 and M3 disconnected, so the driver operates in full-step mode.</p>
+    <p>The DRV8825 carrier board uses low-ESR ceramic capacitors, which makes it susceptible to destructive LC voltage spikes, especially when using power leads longer than a few inches. To protect the driver you can connect an electrolytic capacitor between VMOT and GND. Pololu suggests a capacitor of 47µF or more (I used a 100 µF capacitor).</p>
+    <h3 id="how-to-set-the-current-limit"><strong>How to set the current limit?</strong></h3>
+    <p>Before you start programming your Arduino and start using the driver there is one very important thing you need to do that a lot of people forget: set the current limit!</p>
+    <p>This step is not very complicated but absolutely necessary to protect your stepper motor and the driver. If you do not set an appropriate current limit, your motor can draw more current than it or your driver can handle, this is likely to damage one or both of them.</p>
+    <p>To set the current limit you need to measure a reference voltage and adjust the on-board potentiometer accordingly. You will need a small screwdriver, a multimeter to measure the reference voltage, and alligator test leads (optional but very handy).</p>
+    <p>To measure the reference voltage, the driver needs to be powered. The DRV8825 only needs power via VMOT (8.2–45 V) and you need to apply 5 V to RST and SLP otherwise, the driver won’t turn on. It’s best to disconnect the stepper motor while you do this.</p>
+    <p>If you have already wired up the driver as I have shown before, you can leave the Arduino connected to power the RST and SLP pins.</p>
+    <table>
+    <thead>
+    <tr class="header">
+    <th>DRV8825</th>
+    <th>Connection</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="odd">
+    <td>VMOT</td>
+    <td>8.2–45 V</td>
+    </tr>
+    <tr class="even">
+    <td>GND</td>
+    <td>Motor ground</td>
+    </tr>
+    <tr class="odd">
+    <td>SLP</td>
+    <td>5V</td>
+    </tr>
+    <tr class="even">
+    <td>RST</td>
+    <td>5V</td>
+    </tr>
+    <tr class="odd">
+    <td>GND</td>
+    <td>Logic ground</td>
+    </tr>
+    </tbody>
+    </table>
+    <h3 id="current-limit-formula"><strong>Current limit formula</strong></h3>
+    <p>The next step is to calculate the current limit with the following formula:</p>
+    <p><strong>Current Limit = Vref × 2</strong></p>
+    <p>So this means that for a current limit of 1 A the Vref should be 0.5 V.</p>
+    <p>Now you will need to measure the reference voltage (Vref) between the two points marked on the picture below (GND and the potentiometer) and adjust it to the value you calculated.</p>
+    <h2 id="the-software">The Software</h2>
+    <p>The Arduino script is very light and easy to understand, I have <a href="https://github.com/GiacintoCarlucci/arduino-peristaltic-pump">uploaded it on github</a> if you want to take a look.</p>
+    <p>The code uses <a href="http://www.airspayce.com/mikem/arduino/AccelStepper/index.html">AccelStepper</a> library, a useful and well documented set of functions to control your stepper motor.</p>
+    <h2 id="calculating-water-flow">Calculating Water Flow</h2>
+    <p>Since this is a calculation that involves tubing sizes I decided to measure the time it took to fill a graduated container, using some simple math:</p>
+    <p><strong>Running the stepper motor at 100 steps per second:</strong></p>
+    <ul>
+    <li>10ml in 1:50min</li>
+    <li>20ml in 3:40min</li>
+    <li>30ml in 5:30min</li>
+    <li>40ml in 7:20min</li>
+    <li>50ml in 9:10min</li>
+    </ul>
+    <p>1ml every (110/10) = 11 sec at 100steps 1ml/11sec = 0.090909091 ml each second 0.090909091/100steps = 0.000909091 x step</p>
+    <p><strong>At 1 step per second:</strong></p>
+    <ul>
+    <li>0.000909091 ml per second</li>
+    <li>0.05454546 ml per second</li>
+    <li>3.2727276 ml per hour</li>
+    <li>78.5454624 ml per day</li>
+    </ul>
+    <p><strong>So this bring to us:</strong></p>
+    <ul>
+    <li>At 2 step per sec: 157ml/day</li>
+    <li>At 3 step per sec: 235ml/day</li>
+    <li>At 4 step per sec: 314ml/day</li>
+    <li>At 5 step per sec: 392ml/day</li>
+    </ul>
+    <p>So now I can take these timings into considerations if I want to set the pump flow.</p>
+    <h2 id="a-jumpers-nest">A Jumpers Nest</h2>
+    <p>After testing that everything was going well and smoothly, I decided to solder some boards to reduce the amount of jumper wires on the breadboard.</p>
+    <p>Here you are some basic schemes with final results:</p>
+    <p><strong>Push button control panel</strong></p>
+    <p>scheme:</p>
+    <figure>
+    <img src="./img/button-panel-scheme.jpeg" alt="button panel scheme" /><figcaption aria-hidden="true">button panel scheme</figcaption>
+    </figure>
+    <p>final result:</p>
+    <figure>
+    <img src="./img/button-panel-board.jpeg" alt="button panel board" /><figcaption aria-hidden="true">button panel board</figcaption>
+    </figure>
+    <p><strong>Stepper Driver</strong></p>
+    <p>scheme:</p>
+    <figure>
+    <img src="./img/stepper-driver-scheme.jpeg" alt="stepper driver scheme" /><figcaption aria-hidden="true">stepper driver scheme</figcaption>
+    </figure>
+    <p>final result:</p>
+    <figure>
+    <img src="./img/stepper-driver-board.jpeg" alt="stepper driver board" /><figcaption aria-hidden="true">stepper driver board</figcaption>
+    </figure>
+    <h2 id="im-an-idiot">I’m an Idiot</h2>
+    <p>I was so excited to try the new boards that I mounted the DRV8825 upside down and well… this thing fried the chip.</p>
+    <p>Not a big issue by the way, the DRV8825 is quite cheap and I needed a bunch of them, so I ordered some more and waited for the delivery.</p>
+    <p>Once arrived, I mounted the chip on the board and… the motor was spinning slowly and missing steps.</p>
+    <p>The most common issue can be a misconfiguration in the Vref trimmer on the driver, but again, after a quick check, the motor was still missing steps and acting strange.</p>
+    <p>I studied more on the argument and nothing was helping me, but while observing the motor in its strange and SLOW movements I finally figured out: it was using microstepping.</p>
+    <p>The thing is that I did not set the driver to operate in microstepping, this made me think that there was an issue with the board I soldered. In fact, while checking the connections, I found out that some of the pins were shorting… maybe the solder melted the plastic and caused the issue, so I designed and soldered an improved version, since I didn’t like the arrangement of the motor connector.</p>
+    <p>new scheme:</p>
+    <figure>
+    <img src="./img/updated-stepper-driver-scheme.jpeg" alt="updated stepper driver scheme" /><figcaption aria-hidden="true">updated stepper driver scheme</figcaption>
+    </figure>
+    <p>new board:</p>
+    <figure>
+    <img src="./img/updated-stepper-driver-board.jpeg" alt="updated stepper driver board" /><figcaption aria-hidden="true">updated stepper driver board</figcaption>
+    </figure>
+    <h2 id="the-results">The Results</h2>
+    <p>After creating my new board being careful to not melt plastic or mess any connections, everything worked fine, the timings remained the same for ml/min flow and the motor was not overheating. The driver was not hot but a little fan on top of it could help.</p>
+    <center>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/g-EnY6lvtkY" frameborder="0" allowfullscreen>
+    </iframe>
+    </center>
+    <p>The whole project could be mounted in an enclosure to keep everything tidy and organized</p>
+    <h2 id="future-improvements">Future Improvements</h2>
+    <p>Of course this is just a proof of concept but a lot of improvements could be added here:</p>
+    <ul>
+    <li><p>Do not irrigate if soil is wet</p></li>
+    <li><p>Detect if water reservoir is empty</p></li>
+    <li><p>Solar powered system</p></li>
+    <li><p>Water based on time</p></li>
+    <li><p>Bluetooth control</p></li>
+    <li><p>Irrigate less or more reading ambient temperature</p></li>
+    <li><p>Data logging</p></li>
+    </ul>
+    <h3 id="bonus-idea">Bonus Idea</h3>
+    <p>Teach an Artificial Intelligence using sensors while watering the plant by hand under different conditions, so you can extract a model that can decide when to water and how much.</p>
+    <h2 id="resources">Resources</h2>
+    <ul>
+    <li><p><a href="https://www.makerguides.com/drv8825-stepper-motor-driver-arduino-tutorial/">How to control a stepper motor with DRV8825 driver and Arduino</a></p></li>
+    <li><p><a href="https://forum.arduino.cc/">Arduino Forum</a></p></li>
+    <li><p><a href="https://en.wikipedia.org/wiki/Peristaltic_pump?oldformat=true">How a peristaltic pump works</a></p></li>
+    </ul>
+  </body>
+  <footer>
+    <h3>Explore this website:</h3>
+    <a href="/">home</a>
+    <a href="/docs/about/">about</a>
+    <a href="/docs/now/">now</a>
+    <a href="/docs/memex/">memex</a>
+    <a href="/docs/links/">links</a>
+    <a href="/docs/blog/">blog</a>
+    <a href="/docs/readings/">readings</a>
+    <a href="/docs/photography">photography</a>
+    <a href="/docs/skills-and-tools/">skills/tools</a>
+    <a href="https://webring.xxiivv.com/#xxiivv" target="_blank" rel="noopener noreferrer">
+      <img src="/static/icons/webring-gold.svg" alt="XXIIVV webring" class="webring"/>
+    </a>
+    <br/>
+    <div>
+        <p>
+            Download this web page as markdown (internal links will not work): <a href="./index.md">download</a>
+        </p>
+    </div>
+  </footer>
+</html>

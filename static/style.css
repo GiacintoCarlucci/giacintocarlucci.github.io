@@ -1,0 +1,61 @@
+/*
+                         (╭ರ_•́)
+      PROBABLY THE TINIEST CSS YOU WILL SEE TODAY.
+*/
+body{
+  width: 40%;
+  background: #000015;
+  color: aqua;
+  padding: 30px;
+  line-height: 16pt;
+  font-size: 9pt;
+  font-family: monospace;
+}
+a, a:visited {
+  color: gold;
+  padding: 2px;
+  border: 1px solid gold;
+  background-color: none;
+  text-decoration: none;
+}
+a:hover {
+  color: black;
+  background-color: gold;
+  text-decoration: none;
+}
+img{ max-width: 100%; }
+code{
+  color: violet;
+  border: 1px solid violet;
+  display: inline-block;
+}
+pre code{ padding: 20px; }
+p code{ padding: 0 5px; }
+blockquote{
+  margin-left: 0;
+  border-left: 2px solid;
+}
+blockquote p{ margin-left: 40px; }
+table{ border-spacing: 0; }
+td, th{
+  border-bottom: 1px solid;
+  padding: 5px 7px;
+}
+td:first-child{ padding-left:0; }
+th:first-child{ padding-right:0; }
+.webring{
+  width:24px;
+  vertical-align:bottom;
+}
+.webring:hover{ filter: brightness(0); }
+@media screen and (max-width: 800px) {
+  body {
+    width: auto;
+    padding: 15px;
+    margin: 0px;
+    font-size: 10pt;
+  }
+}
+
+
+
