@@ -1,6 +1,8 @@
+
 ---
 title: 'The XMLHttpRequest Definitive guide'
 ---
+
 # The XMLHttpRequest Definitive guide
 ## Stop searching and read this
 

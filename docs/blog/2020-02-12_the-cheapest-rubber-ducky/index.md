@@ -1,3 +1,4 @@
+
 ---
 title: 'The Cheapest Rubber Ducky'
 ---

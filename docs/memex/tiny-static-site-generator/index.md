@@ -1,3 +1,4 @@
+
 ---
 title: Tiny static site generator
 ---

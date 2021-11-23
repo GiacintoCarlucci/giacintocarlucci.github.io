@@ -1,6 +1,8 @@
+
 ---
 title: 'Why Software Developers should have a blog'
 ---
+
 # Why Software Developers should have a blog
 ## One step away from being ahead.
 
