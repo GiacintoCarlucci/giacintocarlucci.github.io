@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Giacinto Carlucci Personal Website">
+    <meta name="keywords" content="Personal Website, Giacinto Carlucci, Software Developer, Blog, Memex">
+    <meta name="author" content="Giacinto Carlucci">
+    <title>Giacinto Carlucci - CSS Tips</title>
+    <link rel="stylesheet" href="/static/style.css" type="text/css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/icons/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+  </head>
+  <body>
+    <h1 id="css-tips">CSS Tips</h1>
+    <p>Those are some tips from an <a href="https://www.udemy.com/course/css-the-complete-guide-incl-flexbox-grid-sass/">Udemy course I bought</a> to better understand CSS.</p>
+    <p>The first lessons were about basic rules that I already know, I’m adding here some of the advanced tips or useful stuff to keep organized so I can later come back and remember when I need to.</p>
+    <h2 id="general">General</h2>
+    <ul>
+    <li><p>Prefer kebab-case to name id and class selectors</p></li>
+    <li><p>Multiple rules can be applied to the same element, the conflicts are resolved following this rule (most important to less important):</p>
+    <p>inline styles &gt; #id selectors &gt; .class, :pseudo-class and [attribute] selectors &gt; &lt;tag&gt; and ::pseudo-element selectors</p></li>
+    </ul>
+    <h2 id="combinators">Combinators</h2>
+    <ul>
+    <li><strong>Adjacent Sibling</strong> <code>h2 + p { }</code>:
+    <ul>
+    <li>Elements share the same parent</li>
+    <li>Second element comes <strong>immediately</strong> after first element</li>
+    </ul></li>
+    </ul>
+    <pre><code>Adjacent Sibling:
+    &lt;div&gt;
+         &lt;h2&gt;Not applied&lt;/h2&gt;
+         &lt;p&gt;-- Applied --&lt;/p&gt;
+         &lt;h3&gt;Not Applied&lt;/h3&gt;
+         &lt;p&gt;Not applied&lt;/p&gt;
+         &lt;h2&gt;Not applied&lt;/h2&gt;
+         &lt;p&gt;--Applied --&lt;/p&gt;
+    &lt;/div&gt;</code></pre>
+    <ul>
+    <li><strong>General Sibling</strong> <code>h2 ~ p { }</code>
+    <ul>
+    <li>Elements share the same parent</li>
+    <li>Second element comes after first element</li>
+    </ul></li>
+    </ul>
+    <pre><code>General Siblings:
+    &lt;div&gt;
+         &lt;h2&gt;Not applied&lt;/h2&gt;
+         &lt;p&gt;-- Applied --&lt;/p&gt;
+         &lt;h2&gt;Not applied&lt;/h2&gt;
+         &lt;h3&gt;Not applied&lt;/h3&gt;
+         &lt;p&gt;-- Applied --&lt;/p&gt;
+    &lt;/div&gt;</code></pre>
+    <ul>
+    <li><strong>Child</strong> <code>div &gt; p { }</code>
+    <ul>
+    <li>Second element is a direct child of first element</li>
+    </ul></li>
+    </ul>
+    <pre><code>Child:
+    &lt;div&gt;
+        &lt;div&gt;Not applied&lt;/div&gt;
+        &lt;p&gt;-- Applied --&lt;/p&gt;
+        &lt;div&gt;Not applied&lt;/div&gt;
+        &lt;article&gt;
+            &lt;p&gt;Not applied&lt;/p&gt;
+        &lt;/article&gt;
+        &lt;p&gt;-- Applied --&lt;/p&gt;
+    &lt;/div&gt;</code></pre>
+    <ul>
+    <li><strong>Descendant</strong> <code>div p { }</code>
+    <ul>
+    <li>Second element is a descendant of the first element</li>
+    </ul></li>
+    </ul>
+    <pre><code>Descendant:
+    &lt;div&gt;
+        &lt;div&gt;Not applied&lt;/div&gt;
+        &lt;p&gt;-- Applied --&lt;/p&gt;
+        &lt;div&gt;Not applied&lt;/div&gt;
+        &lt;article&gt;
+            &lt;p&gt;-- Applied --&lt;/p&gt;
+        &lt;/article&gt;
+        &lt;p&gt;-- Applied --&lt;/p&gt;
+    &lt;/div&gt;</code></pre>
+    <h2 id="box-model">Box Model</h2>
+    <ul>
+    <li><p><strong>Margin Collapsing</strong><br />
+    Two adjacent elements sharing one margin event tough each element has its own one</p>
+    <ul>
+    <li><p><strong>Adjacent Siblings</strong></p>
+    <p>The first element might have a margin of 10px on all sides and the second one has 5px. CSS will collapse the margins and only add the bigger one between the elements. So if I got margins of 10px and 5px, a 10px margin will be added between the elements.</p></li>
+    <li><p><strong>A parent with children that have a margin</strong></p>
+    <p>The first or last or the only child has to have margins. In that case, the parent elements margin will collapse with the child element margins. The bigger margin wins and will be applied to the parent element.</p></li>
+    <li><p><strong>An empty element with margins</strong></p>
+    <p>If I got an element with no content, no padding, no border and no height, then the top and botton margin will be merged into one single margin. The bigger one wins.</p></li>
+    </ul></li>
+    </ul>
+    <h2 id="box-sizing">Box Sizing</h2>
+    <ul>
+    <li><p><code>box-sizing: content-box;</code></p>
+    <ul>
+    <li>default, the width and height properties include the content, but does not include the padding, border, or margin.</li>
+    </ul></li>
+    <li><p><code>box-sizing: border-box;</code></p>
+    <ul>
+    <li>the width and height properties include the content, padding, and border, but does not include the margin.</li>
+    </ul></li>
+    </ul>
+    <h2 id="display-property">Display Property</h2>
+    <ul>
+    <li><p><code>display: block</code></p>
+    <ul>
+    <li>Every elements is on its own row, some elements having this property by standard are: &lt;div&gt;, &lt;p&gt;, &lt;section&gt;, &lt;article&gt;, &lt;nav&gt;, &lt;h1&gt;, &lt;&gt; etc..</li>
+    </ul></li>
+    <li><p><code>display: inline</code></p>
+    <ul>
+    <li>Every element is on the same row, it is not possible to set top and bottom margins. top and bottom paddings will also have a different effect: they don’t push the adjacent content awaybut they will do so on the element border. Additionally, setting an height and width has no effect to take as musch space as required by the content. Some examples are: &lt;a&gt;, &lt;span&gt;, &lt;img&gt;</li>
+    </ul></li>
+    <li><p><code>display: inline-block</code></p>
+    <ul>
+    <li>Every element is on the same row but is possible to set margin and paddings</li>
+    </ul></li>
+    <li><p><code>display: none</code></p>
+    <ul>
+    <li>The element is not visible but it’s still present in the DOM. This will mean that it doesn’t block its position, Other elements will take its place. If I need to hide an element AND block its position so other elements wouldn’t take its place I can use <code>visibility: hidden;</code> instead.</li>
+    </ul></li>
+    </ul>
+    <h2 id="pseudo-classes-pseudo-elements">Pseudo Classes &amp; Pseudo Elements</h2>
+    <ul>
+    <li><p><strong>Pseudo Class:</strong></p>
+    <ul>
+    <li><p>Defines the style of a <strong>special state</strong> of an element</p>
+    <p>Examples: <code>:hover</code>, <code>:active</code></p></li>
+    </ul></li>
+    <li><p><strong>Pseudo Element:</strong></p>
+    <ul>
+    <li><p>Defines the style of a <strong>specific part</strong> of an element</p>
+    <p>Examples: <code>::first-letter</code>, <code>::after</code>, <code>::before</code></p></li>
+    </ul></li>
+    </ul>
+    <h2 id="links">Links</h2>
+    <ul>
+    <li><a href="http://www.devdoc.net/web/developer.mozilla.org/en-US/docs/DOM/CSS.html">CSS Reference from MDN</a></li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference">Common CSS Properties Reference</a></li>
+    </ul>
+  </body>
+  <footer>
+    <h3>Explore this website:</h3>
+    <a href="/">home</a>
+    <a href="/docs/about/">about</a>
+    <a href="/docs/now/">now</a>
+    <a href="/docs/memex/">memex</a>
+    <a href="/docs/links/">links</a>
+    <a href="/docs/blog/">blog</a>
+    <a href="/docs/readings/">readings</a>
+    <a href="/docs/photography">photography</a>
+    <a href="/docs/skills-and-tools/">skills/tools</a>
+    <a href="https://webring.xxiivv.com/#xxiivv" target="_blank" rel="noopener noreferrer">
+      <img src="/static/icons/webring-gold.svg" alt="XXIIVV webring" class="webring"/>
+    </a>
+    <br/>
+    <div>
+        <p>
+            Download this web page as markdown (internal links will not work): <a href="./index.md">download</a>
+        </p>
+    </div>
+  </footer>
+</html>

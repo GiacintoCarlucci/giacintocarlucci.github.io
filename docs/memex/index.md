@@ -34,3 +34,6 @@ a simple script.
 
 * [tiny static site generator](./tiny-static-site-generator)
 * [project ideas](./project-ideas)
+* [pigpen](./pigpen)
+* [gdb](./gdb)
+* [css tips](./css-tips)
