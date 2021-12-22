@@ -86,7 +86,7 @@ Descendant:
 
 ## Box Model
 
-* **Margin Collapsing**  
+* **Margin Collapsing**
   Two adjacent elements sharing one margin event tough each element has its own one
   
   * **Adjacent Siblings**
@@ -115,7 +115,7 @@ Descendant:
 
 * `display: block`
   
-  * Every elements is on its own row, some elements having this property by standard are: \<div\>, \<p\>, \<section\>, \<article\>, \<nav\>, \<h1\>,  <\h2\> etc..
+  * Every elements is on its own row, some elements having this property by standard are: \<div\>, \<p\>, \<section\>, \<article\>, \<nav\>, \<h1\>,  \<h2\> etc..
 
 * `display: inline`
   
@@ -135,7 +135,7 @@ Descendant:
   
   * Defines the style of a **special state** of an element
     
-    Examples: `:hover`, `:active`
+    Examples: `:hover`, `:active`, `:not()`
 
 * **Pseudo Element:**
   
@@ -143,7 +143,60 @@ Descendant:
     
     Examples: `::first-letter`, `::after`, `::before`
 
+## CSS Class Selectors vs ID Selectors
+
+* **CSS Class Selectors**
+	* .some-class
+    * Re-usable
+    * Allows to mark and name things for styling purposes only
+    
+* **CSS ID Selectors**
+	* #some-id
+    * Only used once per page
+    * Also got non-css meaning (e.g. on-page link)
+
+## !important
+
+Overwrites **specifity** and all other selectors, in general: **don't use it.**
+
+## Outline
+
+Comparable to a border, but it is not part of the box model. It is applied to buttons under the `:focus` property. It is placed between the border and the margin in the box model. I can remove it with `outline: none;`.
+
+## Float
+
+Example: `float: right;` will move an element to the right taking it away from its document flow.
+
+`float` has been created for positioning images in text and make the text 'flow' around the image. It's not the best choice for positioning block level elements: other elements might be influenced by a floating one. 
+
+A common hack is to create a div **after** the floating element and add the css rule `clear: both;` to it. All the elements coming after the div will not respect previous floats.
+
+**Flexbox** is way better for positioning elements.
+
+## Position
+
+* `position: static;` is applied by default.
+
+If the position property is different from `static`, the `top`, `right`, `bottom`, `left` properties will define the behaviour of the position property.
+
+`top`, `right`, `bottom`, `left` properties can work in different **positioning contexts:**
+
+* \<div\>
+* viewport
+* \<html\>
+* \<body\>
+* \<...\>
+
+* `position: absolute;`
+* `position: relative;`
+* `position: fixed;`
+    * depends on viewport
+    * can be used for navbars
+    * works if the element is a block element or inline element
+* `position: sticky;`
+
 ## Links
 
 * [CSS Reference from MDN](http://www.devdoc.net/web/developer.mozilla.org/en-US/docs/DOM/CSS.html)
 * [Common CSS Properties Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference)
+* [Check if I can use a feature on modern browsers](https://caniuse.com/)

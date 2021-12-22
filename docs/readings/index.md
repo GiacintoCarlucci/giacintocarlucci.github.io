@@ -7,10 +7,11 @@ title: Readings
 
 ## Currently
 
-* Psycho-Cybernetics - Maxwell Maltz
+* Never Split the Difference - Chris Voss
 
 ## Past
 
+* Psycho-Cybernetics - Maxwell Maltz
 * Rich Dad, Poor Dad - Robert Kiyosaki
 * Hooked - Nir Eyal
 * When you do what I want - Henrik Fexeus

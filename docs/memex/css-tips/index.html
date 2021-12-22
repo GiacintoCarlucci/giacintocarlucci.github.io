@@ -89,8 +89,7 @@
     &lt;/div&gt;</code></pre>
     <h2 id="box-model">Box Model</h2>
     <ul>
-    <li><p><strong>Margin Collapsing</strong><br />
-    Two adjacent elements sharing one margin event tough each element has its own one</p>
+    <li><p><strong>Margin Collapsing</strong> Two adjacent elements sharing one margin event tough each element has its own one</p>
     <ul>
     <li><p><strong>Adjacent Siblings</strong></p>
     <p>The first element might have a margin of 10px on all sides and the second one has 5px. CSS will collapse the margins and only add the bigger one between the elements. So if I got margins of 10px and 5px, a 10px margin will be added between the elements.</p></li>
@@ -115,7 +114,7 @@
     <ul>
     <li><p><code>display: block</code></p>
     <ul>
-    <li>Every elements is on its own row, some elements having this property by standard are: &lt;div&gt;, &lt;p&gt;, &lt;section&gt;, &lt;article&gt;, &lt;nav&gt;, &lt;h1&gt;, &lt;&gt; etc..</li>
+    <li>Every elements is on its own row, some elements having this property by standard are: &lt;div&gt;, &lt;p&gt;, &lt;section&gt;, &lt;article&gt;, &lt;nav&gt;, &lt;h1&gt;, &lt;h2&gt; etc..</li>
     </ul></li>
     <li><p><code>display: inline</code></p>
     <ul>
@@ -135,7 +134,7 @@
     <li><p><strong>Pseudo Class:</strong></p>
     <ul>
     <li><p>Defines the style of a <strong>special state</strong> of an element</p>
-    <p>Examples: <code>:hover</code>, <code>:active</code></p></li>
+    <p>Examples: <code>:hover</code>, <code>:active</code>, <code>:not()</code></p></li>
     </ul></li>
     <li><p><strong>Pseudo Element:</strong></p>
     <ul>
@@ -143,10 +142,57 @@
     <p>Examples: <code>::first-letter</code>, <code>::after</code>, <code>::before</code></p></li>
     </ul></li>
     </ul>
+    <h2 id="css-class-selectors-vs-id-selectors">CSS Class Selectors vs ID Selectors</h2>
+    <ul>
+    <li><strong>CSS Class Selectors</strong>
+    <ul>
+    <li>.some-class</li>
+    <li>Re-usable</li>
+    <li>Allows to mark and name things for styling purposes only</li>
+    </ul></li>
+    <li><strong>CSS ID Selectors</strong>
+    <ul>
+    <li>#some-id</li>
+    <li>Only used once per page</li>
+    <li>Also got non-css meaning (e.g. on-page link)</li>
+    </ul></li>
+    </ul>
+    <h2 id="important">!important</h2>
+    <p>Overwrites <strong>specifity</strong> and all other selectors, in general: <strong>don’t use it.</strong></p>
+    <h2 id="outline">Outline</h2>
+    <p>Comparable to a border, but it is not part of the box model. It is applied to buttons under the <code>:focus</code> property. It is placed between the border and the margin in the box model. I can remove it with <code>outline: none;</code>.</p>
+    <h2 id="float">Float</h2>
+    <p>Example: <code>float: right;</code> will move an element to the right taking it away from its document flow.</p>
+    <p><code>float</code> has been created for positioning images in text and make the text ‘flow’ around the image. It’s not the best choice for positioning block level elements: other elements might be influenced by a floating one.</p>
+    <p>A common hack is to create a div <strong>after</strong> the floating element and add the css rule <code>clear: both;</code> to it. All the elements coming after the div will not respect previous floats.</p>
+    <p><strong>Flexbox</strong> is way better for positioning elements.</p>
+    <h2 id="position">Position</h2>
+    <ul>
+    <li><code>position: static;</code> is applied by default.</li>
+    </ul>
+    <p>If the position property is different from <code>static</code>, the <code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code> properties will define the behaviour of the position property.</p>
+    <p><code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code> properties can work in different <strong>positioning contexts:</strong></p>
+    <ul>
+    <li><p>&lt;div&gt;</p></li>
+    <li><p>viewport</p></li>
+    <li><p>&lt;html&gt;</p></li>
+    <li><p>&lt;body&gt;</p></li>
+    <li><p>&lt;…&gt;</p></li>
+    <li><p><code>position: absolute;</code></p></li>
+    <li><p><code>position: relative;</code></p></li>
+    <li><p><code>position: fixed;</code></p>
+    <ul>
+    <li>depends on viewport</li>
+    <li>can be used for navbars</li>
+    <li>works if the element is a block element or inline element</li>
+    </ul></li>
+    <li><p><code>position: sticky;</code></p></li>
+    </ul>
     <h2 id="links">Links</h2>
     <ul>
     <li><a href="http://www.devdoc.net/web/developer.mozilla.org/en-US/docs/DOM/CSS.html">CSS Reference from MDN</a></li>
     <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference">Common CSS Properties Reference</a></li>
+    <li><a href="https://caniuse.com/">Check if I can use a feature on modern browsers</a></li>
     </ul>
   </body>
   <footer>
