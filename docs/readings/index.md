@@ -5,7 +5,7 @@ title: Readings
 
 # Readings
 
-## Currently
+## 2022
 
 * Never Split the Difference - Chris Voss
 
