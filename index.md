@@ -19,8 +19,10 @@ for this website.
 
 ## Timeline
 
+* 2019 - 2020: [Samsung Innovation Camp](https://innovationcamp.it/)
 * 2019 - Present: Co-Founder of [Calendbook.com](https://www.calendbook.com)
 * 2015 - Present: BSc of Computer Science at Università degli studi di Bari, Italy
+* 2010 - 2015: Information Technology Diploma at I.T.I.S. Augusto Righi, Italy
 
 ### Zero Tracking or Analytics
 
